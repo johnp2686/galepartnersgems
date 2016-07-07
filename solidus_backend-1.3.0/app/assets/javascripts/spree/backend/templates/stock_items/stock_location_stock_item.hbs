@@ -1,0 +1,25 @@
+<td class="align-center">{{stockLocationName}}</td>
+<td class="align-center">
+  <input id="backorderable-{{id}}"
+         name="backorderable"
+         type="checkbox"
+         value="backorderable"
+         {{#unless editing}} disabled="disabled" {{/unless}}
+         {{#if backorderable}} checked="checked" {{/if}}
+   >
+</td>
+<td class="align-center">
+  {{#if editing}}
+    <input class="fullwidth" name="count_on_hand" type="number" value="{{count_on_hand}}">
+  {{else}}
+    <span>{{count_on_hand}}</span>
+  {{/if}}
+</td>
+<td class="actions">
+  {{#if editing}}
+    <a class="submit fa fa-check icon_link with-tip no-text" data-action="green" href="#"></a>
+    <a class="cancel fa fa-void icon_link with-tip no-text" data-action="red" href="#"></a>
+  {{else}}
+    <a class="edit fa fa-edit icon_link with-tip no-text" data-action="edit" href="#"></a>
+  {{/if}}
+</td>

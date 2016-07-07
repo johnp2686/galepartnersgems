@@ -1,0 +1,32 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:taxonomy_edit) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= button_link_to Spree.t(:back_to_taxonomies_list), spree.admin_taxonomies_path, :icon => 'arrow-left' %>
+  </li>
+  <li>
+    <%= button_link_to Spree.t(:add_taxon), spree.admin_taxonomies_path, { icon: 'plus', class: 'add-taxon-button' } %>
+  </li>
+<% end %>
+
+<%= form_for [:admin, @taxonomy] do |f| %>
+  <fieldset class="no-border-top">
+    <%= render :partial => 'form', :locals => { :f => f } %>
+    <div class="filter-actions actions">
+      <%= button Spree.t('actions.update'), 'refresh' %>
+      <%= button_link_to Spree.t('actions.cancel'), admin_taxonomies_path, :icon => 'remove' %>
+    </div>
+  </fieldset>
+
+
+  <div>
+    <script>
+      Spree.routes.taxonomy_path = "<%= spree.api_taxonomy_path(@taxonomy) %>";
+      Spree.routes.taxonomy_taxons_path = "<%= spree.api_taxonomy_taxons_path(@taxonomy) %>";
+      Spree.routes.admin_taxonomy_taxons_path = "<%= spree.admin_taxonomy_taxons_path(@taxonomy) %>";
+    </script>
+    <div id="taxonomy_tree" class="tree" data-taxonomy-id="<%= @taxonomy.id %>"></div>
+  </div>
+<% end %>

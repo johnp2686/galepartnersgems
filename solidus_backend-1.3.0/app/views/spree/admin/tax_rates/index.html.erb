@@ -1,0 +1,67 @@
+<%= render 'spree/admin/shared/taxes_tabs' %>
+
+<% content_for :page_title do %>
+  <%= Spree::TaxRate.model_name.human(count: :other) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <% if can?(:create, Spree::TaxRate) %>
+    <li>
+      <%= button_link_to Spree.t(:new_tax_rate), new_object_url, :icon => 'plus' %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @tax_rates.any? %>
+  <table class="index">
+    <colgroup>
+      <col style="width: 15%">
+      <col style="width: 15%">
+      <col style="width: 10%">
+      <col style="width: 10%">
+      <col style="width: 10%">
+      <col style="width: 10%">
+      <col style="width: 15%">
+      <col style="width: 15%">
+    </colgroup>
+    <thead>
+      <tr data-hook="rate_header">
+        <th><%= Spree::TaxRate.human_attribute_name(:zone) %></th>
+        <th><%= Spree::TaxRate.human_attribute_name(:name) %></th>
+        <th><%= Spree::TaxRate.human_attribute_name(:tax_category_id) %></th>
+        <th><%= Spree::TaxRate.human_attribute_name(:amount) %></th>
+        <th><%= Spree::TaxRate.human_attribute_name(:included_in_price) %></th>
+        <th><%= Spree::TaxRate.human_attribute_name(:show_rate_in_label) %></th>
+        <th><%= Spree::Calculator.model_name.human %></th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tax_rates.each do |tax_rate|%>
+      <tr id="<%= spree_dom_id tax_rate %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
+        <td class="align-center"><%=tax_rate.zone.try(:name) || Spree.t(:not_available) %></td>
+        <td class="align-center"><%=tax_rate.name %></td>
+        <td class="align-center"><%=tax_rate.tax_category.try(:name) || Spree.t(:not_available) %></td>
+        <td class="align-center"><%=tax_rate.amount %></td>
+        <td class="align-center"><%=tax_rate.included_in_price? ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
+        <td class="align-center"><%=tax_rate.show_rate_in_label? ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
+        <td class="align-center"><%=tax_rate.calculator.to_s %></td>
+        <td class="actions">
+          <% if can?(:update, tax_rate) %>
+            <%= link_to_edit tax_rate, :no_text => true %>
+          <% end %>
+          <% if can?(:destroy, tax_rate) %>
+            <%= link_to_delete tax_rate, :no_text => true %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alpha twelve columns no-objects-found">
+    <%= render 'spree/admin/shared/no_objects_found',
+                 resource: Spree::TaxRate,
+                 new_resource_url: new_object_url %>
+  </div>
+<% end %>

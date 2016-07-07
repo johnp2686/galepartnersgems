@@ -1,0 +1,26 @@
+<%= render 'spree/admin/shared/settings_checkout_tabs' %>
+
+<% content_for :page_title do %>
+  <%= Spree::ReimbursementType.model_name.human(count: :other) %>
+<% end %>
+
+<table class="index" id='listing_reimbursement_types' data-hook>
+  <thead>
+    <tr data-hook="reimbursement_types_header">
+      <th><%= Spree::ReimbursementType.human_attribute_name(:name) %></th>
+      <th><%= Spree::ReimbursementType.human_attribute_name(:type) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reimbursement_types.each do |reimbursement_type| %>
+      <tr id="<%= spree_dom_id reimbursement_type %>" data-hook="reimbursement_type_row" class="<%= cycle('odd', 'even')%>">
+        <td class="align-center">
+          <%= reimbursement_type.name.humanize %>
+        </td>
+        <td>
+          <%= reimbursement_type.type %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
